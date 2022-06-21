@@ -78,6 +78,8 @@ The TD has three components:
 To do this tutorial you will have to interact with the `Evaluator.cairo` contract. To do an exercise you will have to use the `submit_exercise` function to tell the evaluator the address of the evaluated contract. Once it's done you can call the evaluator for it to correct the desired exericse.
 For example to solve the first exercise the workflow would be the following:
 
+#### Comment: The submit_exercise on the evaluator contract does not exist. For exercise one, you need to send the Evaluator your token, or mint directly to the evaluator linked in the readme unless you deploy the evaluator compiled 
+
 `deploy a smart contract that answers ex1` &rarr; `call submit_exercise on the evaluator providing your smart contract address` &rarr; `call ex1_test_erc721 on the evaluator contract`
 
 Your objective is to gather as many ERC721-101 points as possible. Please note :
@@ -159,9 +161,13 @@ docker run --rm -it -v ${pwd}:/work --workdir /work lucaslvy/0.8.0-x86
 - Clone the repo on your machine
 - Test that you are able to compile the project
 
+#### Comment: current clone of repo directions just state "nile compile" command. 
+
 ```bash
-nile compile
+nile compile 
 ```
+
+#### Comment: Replace and specify the above direction with: `starknet-compile contracts/Evaluator.cairo` and then specify you must deploy this contract first using the instructions in /deploy/deploying.txt 
 
 - To convert data to felt use the [`utils.py`](utils.py) script
 
