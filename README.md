@@ -78,7 +78,7 @@ The TD has three components:
 To do this tutorial you will have to interact with the `Evaluator.cairo` contract. To do an exercise you will have to use the `submit_exercise` function to tell the evaluator the address of the evaluated contract. Once it's done you can call the evaluator for it to correct the desired exericse.
 For example to solve the first exercise the workflow would be the following:
 
-#### Comment: The submit_exercise on the evaluator contract does not exist. For exercise one, you need to send the Evaluator your token, or mint directly to the evaluator linked in the readme unless you deploy the evaluator compiled 
+## Comment: The submit_exercise on the evaluator contract does not exist. For exercise one, you need to send the Evaluator your token, or mint directly to the evaluator linked in the readme unless you deploy the evaluator compiled 
 
 `deploy a smart contract that answers ex1` &rarr; `call submit_exercise on the evaluator providing your smart contract address` &rarr; `call ex1_test_erc721 on the evaluator contract`
 
@@ -87,7 +87,7 @@ Your objective is to gather as many ERC721-101 points as possible. Please note :
 - The 'transfer' function of ERC721-101 has been disabled to encourage you to finish the tutorial with only one address
 - In order to receive points, you will have to reach the calls to the  `distribute_point` function.
 
-#### Comment: Below is important: You need to make sure all instructions are in your contract. 
+## Comment: Below is important: You need to make sure all instructions are in your contract. 
 
 - This repo contains an interface `IExerciceSolution.cairo`. Your ERC721 contract will have to conform to this interface in order to validate the exercise; that is, your contract needs to implement all the functions described in `IExerciceSolution.cairo`.
 - **We really recommend that your read the [`Evaluator.cairo`](contracts/Evaluator.cairo) contract in order to fully understand what's expected for each exercise**. A high level description of what is expected for each exercise is provided in this readme.
@@ -117,17 +117,17 @@ You sent a transaction, and it is shown as "undetected" in voyager? This can mea
 - Your transaction was invalid, and will NOT be included in a block (there is no such thing as a failed transaction in StarkNet).
 ​
 
-#### Comment: This part is an important troubleshooting step. Highlight this. 
+## Comment: This part is an important troubleshooting step. Highlight this. 
 
 You can (and should) check the status of your transaction with the following URL  [https://alpha4.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=](https://alpha4.starknet.io/feeder_gateway/get_transaction_receipt?transactionHash=)  , where you can append your transaction hash.
 ​
 
 #### Install nile
 
-#### Comment: This needs to be clarified. Set up steps for cairo don't specify you need to 1. run docker daemon and 2. ensure you are in Cairo_VENV before continuing. 
+## Comment: This needs to be clarified. Set up steps for cairo don't specify you need to 1. run docker daemon and 2. ensure you are in Cairo_VENV before continuing. 
 
-#### Comment: Adding Fastecdsa should be done in cairo_venv and on M1 macs may need to specify a CFLAG
-#### Comment: `CFLAGS=-I/opt/homebrew/opt/gmp/include LDFLAGS=-L/opt/homebrew/opt/gmp/lib pip install fastecdsa`
+## Comment: Adding Fastecdsa should be done in cairo_venv and on M1 macs may need to specify a CFLAG
+## Comment: `CFLAGS=-I/opt/homebrew/opt/gmp/include LDFLAGS=-L/opt/homebrew/opt/gmp/lib pip install fastecdsa`
 
 ##### With pip
 
@@ -161,13 +161,14 @@ docker run --rm -it -v ${pwd}:/work --workdir /work lucaslvy/0.8.0-x86
 - Clone the repo on your machine
 - Test that you are able to compile the project
 
-#### Comment: current clone of repo directions just state "nile compile" command. 
+## Comment: current clone of repo directions just state "nile compile" command. 
 
 ```bash
 nile compile 
 ```
 
-#### Comment: Replace and specify the above direction with: `nile compile contracts/Evaluator.cairo` and then specify you must deploy this contract first using the instructions in /deploy/deploying.txt. Compilation still uses Nile. 
+
+## Comment: Replace and specify the above direction with: `nile compile contracts/Evaluator.cairo` and then specify you must deploy this contract first using the instructions in /deploy/deploying.txt. Compilation still uses Nile. 
 
 - To convert data to felt use the [`utils.py`](utils.py) script
 
@@ -194,14 +195,14 @@ Today we are creating an animal registry! Animals are bred by breeders. They can
 - Create an ERC721 token contract. You can use [this implementation](contracts/token/ERC721/ERC721.cairo) as a base
 - Deploy it to the testnet (check the constructor for the needed arguments. Also note that the arguments should be decimals.)
 
-#### Comment: Can specify here that the args are from the parameter inputs. Also could specify that you can mint the token directly to the Evaluator as the third arg and save you time transferring. 
+## Comment: Can specify here that the args are from the parameter inputs. Also could specify that you can mint the token directly to the Evaluator as the third arg and save you time transferring. 
 
 ```bash
 nile compile contracts/token/ERC721/ERC721.cairo
 nile deploy ERC721 arg1 arg2 arg3 --network goerli 
 ```
 
-#### Comment: Needs to explain how to read the Starknet CLI and get the correct info. Currently the contract address is most readable on Voyager. 
+## Comment: Needs to explain how to read the Starknet CLI and get the correct info. Currently the contract address is most readable on Voyager. 
 
 
 - Give token #1 to Evaluator contract // Clarify, where to send? Evaluator contract address. What steps to take before sending. 
@@ -210,7 +211,7 @@ nile deploy ERC721 arg1 arg2 arg3 --network goerli
 
 #### Exercise 2
 
-#### Comment: Issues here stem from existing NFTs in wallet. Need to ensure your NFT remains in wallet to be part of the solution evaluated in part B. 
+## Comment: Issues here stem from existing NFTs in wallet. Need to ensure your NFT remains in wallet to be part of the solution evaluated in part B. 
 
 - Call `ex2a_get_animal_rank()` to get assigned a random creature to create.
 - Read the expected characteristics of your animal from the Evaluator
