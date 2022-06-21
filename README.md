@@ -167,7 +167,7 @@ docker run --rm -it -v ${pwd}:/work --workdir /work lucaslvy/0.8.0-x86
 nile compile 
 ```
 
-#### Comment: Replace and specify the above direction with: `starknet-compile contracts/Evaluator.cairo` and then specify you must deploy this contract first using the instructions in /deploy/deploying.txt 
+#### Comment: Replace and specify the above direction with: `nile compile contracts/Evaluator.cairo` and then specify you must deploy this contract first using the instructions in /deploy/deploying.txt. Compilation still uses Nile. 
 
 - To convert data to felt use the [`utils.py`](utils.py) script
 
