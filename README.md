@@ -78,7 +78,7 @@ The TD has three components:
 To do this tutorial you will have to interact with the `Evaluator.cairo` contract. To do an exercise you will have to use the `submit_exercise` function to tell the evaluator the address of the evaluated contract. Once it's done you can call the evaluator for it to correct the desired exericse.
 For example to solve the first exercise the workflow would be the following:
 
-## Comment: The submit_exercise on the evaluator contract does not exist. For exercise one, you need to send the Evaluator your token, or mint directly to the evaluator linked in the readme unless you deploy the evaluator compiled 
+## Comment: The submit_exercise on the evaluator contract does not exist unless you deploy a new evaluator. For exercise one, using the linked Evaluator here, you need to send the Evaluator your token, or mint directly to the evaluator linked in the readme unless you deploy the evaluator compiled 
 
 `deploy a smart contract that answers ex1` &rarr; `call submit_exercise on the evaluator providing your smart contract address` &rarr; `call ex1_test_erc721 on the evaluator contract`
 
@@ -87,7 +87,7 @@ Your objective is to gather as many ERC721-101 points as possible. Please note :
 - The 'transfer' function of ERC721-101 has been disabled to encourage you to finish the tutorial with only one address
 - In order to receive points, you will have to reach the calls to the  `distribute_point` function.
 
-## Comment: Below is important: You need to make sure all instructions are in your contract. 
+## Comment: Below is important: You need to make sure all instructions are in your contract. Use IERCSolution.cairo to check the functions you need. 
 
 - This repo contains an interface `IExerciceSolution.cairo`. Your ERC721 contract will have to conform to this interface in order to validate the exercise; that is, your contract needs to implement all the functions described in `IExerciceSolution.cairo`.
 - **We really recommend that your read the [`Evaluator.cairo`](contracts/Evaluator.cairo) contract in order to fully understand what's expected for each exercise**. A high level description of what is expected for each exercise is provided in this readme.
