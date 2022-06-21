@@ -27,6 +27,18 @@ func ERC721_symbol_() -> (symbol: felt):
 end
 
 @storage_var
+func ERC721_sex_() -> (sex :felt):
+end
+
+@storage_var
+func ERC721_legs_() -> (legs :felt):
+end
+
+@storage_var
+func ERC721_wings_() -> (wings :felt):
+end
+
+@storage_var
 func ERC721_owners(token_id: Uint256) -> (owner: felt):
 end
 
@@ -70,9 +82,15 @@ func ERC721_initializer{
     }(
         name: felt,
         symbol: felt,
+        sex: felt,
+        legs: felt,
+        wings: felt,
     ):
     ERC721_name_.write(name)
     ERC721_symbol_.write(symbol)
+    ERC721_sex_.write(sex)
+    ERC721_legs_.write(legs)
+    ERC721_wings_.write(wings)
     # register IERC721
     ERC165_register_interface(0x80ac58cd)
     return ()
@@ -81,6 +99,33 @@ end
 #
 # Getters
 #
+
+func ERC721_sex{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }() -> (sex: felt):
+    let (sex) = ERC721_sex_.read()
+    return (sex)
+end
+
+func ERC721_legs{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }() -> (legs: felt):
+    let (legs) = ERC721_legs_.read()
+    return (legs)
+end
+
+func ERC721_wings{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }() -> (wings: felt):
+    let (wings) = ERC721_wings_.read()
+    return (wings)
+end
 
 func ERC721_name{
         syscall_ptr : felt*,

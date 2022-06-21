@@ -1,11 +1,10 @@
 %lang starknet
- ecdsa
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin, SignatureBuiltin
 from starkware.cairo.common.uint256 import Uint256
 
 from contracts.token.ERC721.ERC721_base import (
-    ERC721_name, ERC721_symbol, ERC721_balanceOf, ERC721_ownerOf, ERC721_getApproved,
+    ERC721_sex, ERC721_legs, ERC721_wings, ERC721_name, ERC721_symbol, ERC721_balanceOf, ERC721_ownerOf, ERC721_getApproved,
     ERC721_isApprovedForAll, ERC721_mint, ERC721_burn, ERC721_initializer, ERC721_approve,
     ERC721_setApprovalForAll, ERC721_transferFrom, ERC721_safeTransferFrom)
 
@@ -15,8 +14,8 @@ from contracts.token.ERC721.ERC721_base import (
 
 @constructor
 func constructor{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
-        name : felt, symbol : felt, to_ : felt):
-    ERC721_initializer(name, symbol)
+        name : felt, symbol : felt, sex : felt, legs : felt, wings : felt, to_ : felt):
+    ERC721_initializer(name, symbol, sex, legs, wings)
     let to = to_
     let token_id : Uint256 = Uint256(1, 0)
     ERC721_mint(to, token_id)
@@ -67,9 +66,23 @@ func isApprovedForAll{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_ch
     return (is_approved)
 end
 
+# Ability to record animal characteristics in contract
+
+@view
+func get_animal_characteristics{pedersen_ptr : HashBuiltin*, syscall_ptr : felt*, range_check_ptr}(
+    token_id : Uint256 ) -> (sex : felt, legs : felt, wings : felt):
+let (sex : felt) = ERC721_sex()
+let (legs : felt) = ERC721_legs()
+let (wings : felt) = ERC721_wings()
+return(sex, legs, wings)
+end
+
 #
 # Externals
 #
+
+
+
 
 @external
 func approve{pedersen_ptr : HashBuiltin*, syscall_ptr : felt*, range_check_ptr}(
