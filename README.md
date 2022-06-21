@@ -212,7 +212,7 @@ nile deploy ERC721 arg1 arg2 arg3 --network goerli
 - Mint the animal with the desired characteristics and give it to the evaluator
 - Call `ex2b_test_declare_animal()` to receive points (2 pts)
 
-![Animal](/starknet-erc721/Traits.png)
+![Animal](Traits.png)
 
 ### Minting and burning NFTs
 
