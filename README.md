@@ -1,5 +1,7 @@
 # ERC721 on StarkNet
 
+# Comment: Need to make an easier way to check the status of a deployed contract via voyager. It is easy to check the transaction hash and status directly agains the endpoint, but Voyager takes a long time to register the transaction so the hash is not searchable on voyager almost ever. 
+
 ## Introduction
 
 Welcome! This is an automated workshop that will explain how to deploy an ERC721 token on StarkNet and customize it to perform specific functions. The ERC721 standard is described [here](https://docs.openzeppelin.com/contracts/3.x/api/token/erc721).
@@ -195,7 +197,7 @@ Today we are creating an animal registry! Animals are bred by breeders. They can
 - Create an ERC721 token contract. You can use [this implementation](contracts/token/ERC721/ERC721.cairo) as a base
 - Deploy it to the testnet (check the constructor for the needed arguments. Also note that the arguments should be decimals.)
 
-## Comment: Can specify here that the args are from the parameter inputs. Also could specify that you can mint the token directly to the Evaluator as the third arg and save you time transferring. 
+## Comment: Can specify here that the args are from the parameter inputs. Also could specify that you can mint the token directly to the Evaluator as the third arg and save you time transferring. However, given the instructions here, you may not need to actually send the token you create to the contract. Unclear. 
 
 ```bash
 nile compile contracts/token/ERC721/ERC721.cairo

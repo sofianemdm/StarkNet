@@ -66,7 +66,7 @@ func isApprovedForAll{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_ch
     return (is_approved)
 end
 
-# Ability to record animal characteristics in contract
+# Ability to record animal characteristics in contract.
 
 @view
 func get_animal_characteristics{pedersen_ptr : HashBuiltin*, syscall_ptr : felt*, range_check_ptr}(
