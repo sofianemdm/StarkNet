@@ -81,16 +81,16 @@ func ERC721_initializer{
         range_check_ptr
     }(
         name: felt,
-        symbol: felt,
-        sex: felt,
-        legs: felt,
-        wings: felt,
+        symbol: felt
+        #sex: felt,
+        #legs: felt,
+        #wings: felt,
     ):
     ERC721_name_.write(name)
     ERC721_symbol_.write(symbol)
-    ERC721_sex_.write(sex)
-    ERC721_legs_.write(legs)
-    ERC721_wings_.write(wings)
+   # ERC721_sex_.write(sex)
+   # ERC721_legs_.write(legs)
+   # ERC721_wings_.write(wings)
     # register IERC721
     ERC165_register_interface(0x80ac58cd)
     return ()
@@ -190,6 +190,26 @@ end
 #
 # Externals
 #
+
+# Original idea to create and declare animals. 
+
+#func ERC721_declare_animal{
+#        pedersen_ptr: HashBuiltin*,
+#       syscall_ptr: felt*,
+#        range_check_ptr
+#    }()->(sex: felt, legs: felt, wings: felt):
+#    # Checks caller is not zero address
+#    let (caller) = get_caller_address()
+#    assert_not_zero(caller)
+#    let (sex) = ERC721_sex_input_.read()
+#    let (legs) = ERC721_legs_input_.read()
+#    let (wings) = ERC721_wings_input_.read()
+#    #set owner as the person calling the function and approve
+#    let (owner) = get_caller_address()
+#    _approve(owner, to, token_id)
+#    return (sex, legs, wings)
+#    end
+
 
 func ERC721_approve{
         pedersen_ptr: HashBuiltin*,

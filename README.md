@@ -1,6 +1,6 @@
 # ERC721 on StarkNet
 
-# Comment: Need to make an easier way to check the status of a deployed contract via voyager. It is easy to check the transaction hash and status directly agains the endpoint, but Voyager takes a long time to register the transaction so the hash is not searchable on voyager almost ever. 
+# Comment: Need to make an easier way to check the status of a deployed contract via voyager. It is easy to check the transaction hash and status directly agains the endpoint, but Voyager takes a long time to register the transaction so the hash is not searchable on voyager almost ever.
 
 ## Introduction
 
@@ -134,6 +134,23 @@ You can (and should) check the status of your transaction with the following URL
 ##### With pip
 
 - Set up the environment following [these instructions](https://starknet.io/docs/quickstart.html#quickstart)
+
+## Comment: Ensure Docker running
+## Comment: Ran fresh install following above instructions. Ran $pip3 install fastecdsa + $brew install gmp + $pip3 install cairo-lang + $python -m pip install --upgrade pip + $pip3 install contextvars
+## Comment: Then used alias nile='docker run --rm -v "$PWD":"$PWD" -w "$PWD" lucaslvy/nile:0.7.1' instead of below.  
+## Comment: Then ran $python3 utils.py
+## Comment: Used https://github.com/starknet-edu/starknet-erc721 and cmd starknet-compile in the starknet-erc721 directory of the root project. (cairo_venv) scottlozano@scoot starknet-erc721 % starknet-compile ./contracts/token/ERC721/ERC721.cairo (ABI was printed to the console). No artifacts generated except one for ERC721.cairo
+## Comment: Used $nile compile in same directory. Generated all artifacts. Failed two: contracts/token/ERC721/ERC721_metadata.cairo & contracts/token/ERC721/TDERC721_metadata.cairo 👇🏼
+```
+Error
+Expected one of: "(", ".", ":", "=", "[", "{", operator.
+ ecdsa
+      ^
+```
+
+## Comment: Added to the above contracts (pre-populated) %builtins pedersen range_check ecdsa. Ran $nile compile again. Successful. 
+## Comment: Can now call nile deploy and check contract on goerli. 
+
 - Install [Nile](https://github.com/OpenZeppelin/nile).
 
 ##### With docker
