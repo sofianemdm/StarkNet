@@ -50,7 +50,7 @@ func animals(token_id: felt) -> (animal: Animal):
 end
 
 @storage_var
-func is_breeder_map(account: felt) -> (is_breeder: felt):
+func is_breeder_map(account: felt) -> (is_approved: felt):
 end
 
 @storage_var
@@ -74,6 +74,13 @@ end
 #
 # Getters
 #
+
+@view
+func animal_died{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr} (
+        token_id: Uint256) -> (is_dead: felt):
+let (dead) = is_animal_dead.read(token_id=token_id.low)
+return (dead)
+end
 
 @view
 func name{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}() -> (name : felt):
@@ -200,7 +207,12 @@ func declare_dead_animal{pedersen_ptr: HashBuiltin*, syscall_ptr: felt*, range_c
     let (exists) = _exists(token_id)
     assert exists = 1
     # Set the animal dead
-    is_animal_dead.write(token_id=(token_id.low), value=1)
+    is_animal_dead.write(token_id=(token_id.low), value = 1)
+    # Remove the info of the animal
+    animals.write(
+        token_id = token_id.low, 
+        value = Animal(sex = 0, legs = 0, wings = 0)
+    )
     return ()
 end
 
@@ -233,3 +245,62 @@ func safeTransferFrom{pedersen_ptr : HashBuiltin*, syscall_ptr : felt*, range_ch
     ERC721_safeTransferFrom(_from, to, token_id, data_len, data)
     return ()
 end
+
+
+#
+# Internals
+#
+
+func token_of_owner_by_index_search{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+        account: felt, 
+        target_token_index: felt, 
+        current_token_index: felt, 
+        max_token_index: felt,
+        search_token_index: felt
+    ) -> (token_id:  Uint256):
+    let (owner) = ERC721_ownerOf(Uint256(search_token_index, 0))
+
+    # If it's not the same owner continue to search
+    if owner != account:
+        # If it's not the last token
+        assert_not_equal(search_token_index, max_token_index)
+        # Search at the next index
+        let next_search_token_index = search_token_index + 1
+        let (result) = token_of_owner_by_index_search(
+            account=account,
+            target_token_index=target_token_index, 
+            current_token_index=current_token_index,
+            max_token_index=max_token_index,
+            search_token_index=next_search_token_index
+        )
+        return (result)
+    end
+
+    # If it is the owner, but it's not the target index
+    if target_token_index != current_token_index:
+         # If it's not the last token
+        assert_not_equal(search_token_index, max_token_index)
+        # Search at the next index, increasing the current token index too
+        let next_search_token_index = search_token_index + 1
+        let next_current_token_index = current_token_index + 1
+        let (result) = token_of_owner_by_index_search(
+            account=account,
+            target_token_index=target_token_index, 
+            current_token_index=next_current_token_index,
+            max_token_index=max_token_index,
+            search_token_index=next_search_token_index
+        )
+        return (result)
+    end
+
+    # Otherwise this is the correct token
+    return (token_id=Uint256(search_token_index, 0))
+end
+
+
+
+
+
+
+
+

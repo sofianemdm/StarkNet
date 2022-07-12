@@ -18,6 +18,11 @@ from contracts.token.ERC721.IERC721_Receiver import IERC721_Receiver
 # Storage
 #
 
+
+#@storage_var
+#func ERC721_is_animal_dead(token_id: felt) -> (is_dead: felt):
+#end
+
 @storage_var
 func ERC721_name_() -> (name: felt):
 end
@@ -45,6 +50,10 @@ end
 @storage_var
 func ERC721_balances(account: felt) -> (balance: Uint256):
 end
+
+# May need to 
+#@storage_var
+#func is_added() -> (i)
 
 @storage_var
 func ERC721_token_approvals(token_id: Uint256) -> (res: felt):
@@ -126,6 +135,14 @@ func ERC721_wings{
     let (wings) = ERC721_wings_.read()
     return (wings)
 end
+
+#func ERC721_dead{ syscall_ptr : felt*,
+#        pedersen_ptr : HashBuiltin*,
+#        range_check_ptr
+#    }() -> (dead: felt):
+#    let (dead) = ERC721_is_animal_dead_.read(token_id)
+#    return (dead)
+#end
 
 func ERC721_name{
         syscall_ptr : felt*,

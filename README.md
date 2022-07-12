@@ -126,6 +126,8 @@ You can (and should) check the status of your transaction with the following URL
 
 #### Install nile
 
+
+## Comment: Useful commands for Nile found here: https://github.com/OpenZeppelin/nile
 ## Comment: This needs to be clarified. Set up steps for cairo don't specify you need to 1. run docker daemon and 2. ensure you are in Cairo_VENV before continuing. 
 
 ## Comment: Adding Fastecdsa should be done in cairo_venv and on M1 macs may need to specify a CFLAG
@@ -135,10 +137,10 @@ You can (and should) check the status of your transaction with the following URL
 
 - Set up the environment following [these instructions](https://starknet.io/docs/quickstart.html#quickstart)
 
-## Comment: Ensure Docker running
 ## Comment: Ran fresh install following above instructions. Ran $pip3 install fastecdsa + $brew install gmp + $pip3 install cairo-lang + $python -m pip install --upgrade pip + $pip3 install contextvars
 ## Comment: Then used alias nile='docker run --rm -v "$PWD":"$PWD" -w "$PWD" lucaslvy/nile:0.7.1' instead of below.  
 ## Comment: Then ran $python3 utils.py
+## Comment: First ran these instructions: https://github.com/OpenZeppelin/nile Did not function successfully.
 ## Comment: Used https://github.com/starknet-edu/starknet-erc721 and cmd starknet-compile in the starknet-erc721 directory of the root project. (cairo_venv) scottlozano@scoot starknet-erc721 % starknet-compile ./contracts/token/ERC721/ERC721.cairo (ABI was printed to the console). No artifacts generated except one for ERC721.cairo
 ## Comment: Used $nile compile in same directory. Generated all artifacts. Failed two: contracts/token/ERC721/ERC721_metadata.cairo & contracts/token/ERC721/TDERC721_metadata.cairo 👇🏼
 ```
@@ -256,6 +258,12 @@ nile deploy ERC721 arg1 arg2 arg3 --network goerli
 
 #### Exercise 5
 
+## Comment: Used cmd $nile deploy dummy_token 0x64746B  0x44544B 100 1 0x01bd14Ef3885921b2ECeb8f5eDd5e8620D29850E8E40c2EC60777A3ab9106714 --network goerli but unsure if this is correct. Kept asking for args. added 1 at end and successful deployment. I think I did it wrong haha. However, I am rich in DTK. Wen DTK yacht? Need to specify in directions to use the pre-deployed ERC20 Dummy token contract as the faucet.  
+
+![Funny mistake](lol.png)
+
+
+
 - Use [dummy token faucet](contracts/token/ERC20/dummy_token.cairo) to get dummy tokens
 - Use `ex5a_i_have_dtk()` to show you managed to use the faucet (2 pts)
 - Create a function to allow breeder registration.
@@ -273,6 +281,41 @@ nile deploy ERC721 arg1 arg2 arg3 --network goerli
 
 #### Exercise 7
 
+## Comment: Running script for converting metadata is below. Substitute URL for the path to your pinned metadata containing pinned image in the metadata. See folder Images in directory. Converts the length of an array (length = 2 for the url and the .json in the example below). Name files in directory .json and numbered and have link to pinned image in their metadata.
+
+```
+PYTHONPATH=. python3 -c "import utils; url='https://gateway.pinata.cloud/ipfs/QmPuwJHUYNYyPuniYu8PQMWxgoWBtpG5ruGViiZUFadTFg/'; print(f'{utils.str_to_felt_array(url)}')" 
+```
+
+Above gives array length 3 of converted string and then I converted .json to 199354445678 and tacked it on the end. Used `python3 -i utils.py` and `str_to_felt('.json')` (exit vim is `quit()`)
+
+Successful deployment: 
+
+(This is to manipulate deployment so I don't lose data)
+
+nile deploy ERC721_metadata 0x646F67676F 0x444F47474F 0x01bd14Ef3885921b2ECeb8f5eDd5e8620D29850E8E40c2EC60777A3ab9106714 3 184555836509371486644298270517380613565396767415278678887948391494588524912 181013377130035687865117051153224666913117011459936689029056955402119636277 2281234680916955549700107586580885185257234735 199354445678 --network goerli 
+ 
+ ```  
+See ERC721_metadata.cairo for constructor. 
+
+@constructor
+func constructor{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr
+    }(name: felt, symbol: felt, owner: felt, base_token_uri_len: felt, base_token_uri: felt*, token_uri_suffix: felt):
+                                           3 (for length of array of baseURL), utils.py convert baseFolderURL, suffix = json (convert with utils.py)
+    ERC721_initializer(name, symbol)
+    ERC721_Metadata_initializer()
+    Ownable_initializer(owner)
+    ERC721_Metadata_setBaseTokenURI(base_token_uri_len, base_token_uri, token_uri_suffix)
+    return ()
+end
+```
+
+```
+nile deploy ERC721_metadata 0x646F67676F 0x444F47474F 0x01bd14Ef3885921b2ECeb8f5eDd5e8620D29850E8E40c2EC60777A3ab9106714 3 184555836509371486644298270517380613565396767415278678887948391494588524912 181013377130035687865117051153224666913117011459936689029056955402119636277 2281234680916955549700107586580885185257234735 199354445678 --network goerli 
+```
 - Create a new ERC721 contract that supports metadata. You can use [this contract](contracts/token/ERC721/ERC721_metadata.cairo) as a base
 - The base token URI is the chosen IPFS gateway
 - You can upload your NFTs directly on [this website](https://www.pinata.cloud/)
