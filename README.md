@@ -322,5 +322,6 @@ nile deploy ERC721_metadata 0x646F67676F 0x444F47474F 0x01bd14Ef3885921b2ECeb8f5
 - Your tokens should be visible on [Oasis](https://testnet.playoasis.xyz/) once minted!
 - Claim points on `ex7_add_metadata` (2 pts)
 
+Deployed contract Here: 0x0771885fa37f2ca1be56a56a05b94383bb484b183534d9b5d798ba873e144efc
 ​
 ​
