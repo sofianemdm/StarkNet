@@ -3,6 +3,7 @@
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin, SignatureBuiltin
 from starkware.cairo.common.uint256 import Uint256
+from starkware.starknet.common.syscalls import get_caller_address
 
 from contracts.token.ERC721.ERC721_base import (
     ERC721_name,
@@ -18,7 +19,8 @@ from contracts.token.ERC721.ERC721_base import (
     ERC721_approve,
     ERC721_setApprovalForAll,
     ERC721_transferFrom,
-    ERC721_safeTransferFrom
+    ERC721_safeTransferFrom,
+    _exists
 )
 
 from contracts.token.ERC721.ERC721_Metadata_base import (
@@ -40,6 +42,28 @@ from contracts.utils.Ownable_base import (
 
 
 #
+# Data structures
+#
+
+struct Animal:
+    member sex: felt
+    member legs: felt
+    member wings: felt
+end
+
+#
+# Storage
+#
+
+@storage_var
+func next_token_id() -> (next_token_id: felt):
+end
+
+@storage_var
+func animals(token_id: Uint256) -> (animal: Animal):
+end
+
+#
 # Constructor
 #
 
@@ -59,6 +83,17 @@ end
 #
 # Getters
 #
+
+@view
+func get_animal_characteristics{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+        token_id:  Uint256) -> (sex:  felt, legs:  felt, wings:  felt):
+    # Ensures token_id is valid
+    let (exists) = _exists(token_id)
+    assert exists = 1
+    # Get the animal
+    let (animal) = animals.read(token_id)
+    return (animal.sex, animal.legs, animal.wings)
+end
 
 @view
 func getOwner{
@@ -216,9 +251,14 @@ func mint{
         pedersen_ptr: HashBuiltin*,
         syscall_ptr: felt*,
         range_check_ptr
-    }(to: felt, token_id: Uint256):
+    }(to: felt, token_id: Uint256, sex: felt, legs: felt, wings: felt):
     Ownable_only_owner()
-    ERC721_mint(to, token_id)
+    let (caller_address) = get_caller_address()
+    animals.write(
+        token_id=token_id, 
+        value=Animal(sex=sex, legs=legs, wings=wings)
+    )
+    ERC721_mint(caller_address, token_id)
     return ()
 end
 
