@@ -46,9 +46,7 @@ from contracts.utils.Ownable_base import (
 #
 
 struct Animal:
-    member sex: felt
-    member legs: felt
-    member wings: felt
+    member age: felt
 end
 
 #
