@@ -32,16 +32,9 @@ func ERC721_symbol_() -> (symbol: felt):
 end
 
 @storage_var
-func ERC721_sex_() -> (sex :felt):
+func ERC721_age_() -> (age :felt):
 end
 
-@storage_var
-func ERC721_legs_() -> (legs :felt):
-end
-
-@storage_var
-func ERC721_wings_() -> (wings :felt):
-end
 
 @storage_var
 func ERC721_owners(token_id: Uint256) -> (owner: felt):
@@ -109,32 +102,15 @@ end
 # Getters
 #
 
-func ERC721_sex{
+func ERC721_age{
         syscall_ptr : felt*,
         pedersen_ptr : HashBuiltin*,
         range_check_ptr
-    }() -> (sex: felt):
-    let (sex) = ERC721_sex_.read()
-    return (sex)
+    }() -> (age: felt):
+    let (age) = ERC721_age_.read()
+    return (age)
 end
 
-func ERC721_legs{
-        syscall_ptr : felt*,
-        pedersen_ptr : HashBuiltin*,
-        range_check_ptr
-    }() -> (legs: felt):
-    let (legs) = ERC721_legs_.read()
-    return (legs)
-end
-
-func ERC721_wings{
-        syscall_ptr : felt*,
-        pedersen_ptr : HashBuiltin*,
-        range_check_ptr
-    }() -> (wings: felt):
-    let (wings) = ERC721_wings_.read()
-    return (wings)
-end
 
 #func ERC721_dead{ syscall_ptr : felt*,
 #        pedersen_ptr : HashBuiltin*,
