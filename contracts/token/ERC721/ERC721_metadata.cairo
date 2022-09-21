@@ -84,13 +84,13 @@ end
 
 @view
 func get_animal_characteristics{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
-        token_id:  Uint256) -> (sex:  felt, legs:  felt, wings:  felt):
+        token_id:  Uint256) -> (age:  felt):
     # Ensures token_id is valid
     let (exists) = _exists(token_id)
     assert exists = 1
     # Get the animal
     let (animal) = animals.read(token_id)
-    return (animal.sex, animal.legs, animal.wings)
+    return (animal.age)
 end
 
 @view
@@ -249,12 +249,12 @@ func mint{
         pedersen_ptr: HashBuiltin*,
         syscall_ptr: felt*,
         range_check_ptr
-    }(to: felt, token_id: Uint256, sex: felt, legs: felt, wings: felt):
+    }(to: felt, token_id: Uint256, age: felt):
     Ownable_only_owner()
     let (caller_address) = get_caller_address()
     animals.write(
         token_id=token_id, 
-        value=Animal(sex=sex, legs=legs, wings=wings)
+        value=Animal(age=age)
     )
     ERC721_mint(caller_address, token_id)
     return ()
